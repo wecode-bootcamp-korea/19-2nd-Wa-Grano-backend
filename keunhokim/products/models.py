@@ -83,11 +83,9 @@ class FoodType(models.Model):
     class Meta:
         db_table = 'food_types'
 
-
 class Dinning(models.Model):
     dinning_type = models.ForeignKey('DinningType', on_delete=models.SET_NULL, null=True)
     food_type    = models.ForeignKey('FoodType', on_delete=models.SET_NULL, null=True)
-    description  = models.TextField()
 
     class Meta:
         db_table = 'dinnings'

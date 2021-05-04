@@ -8,7 +8,7 @@ class User(models.Model):
     last_name    = models.CharField(max_length=45, null=True)
     first_name   = models.CharField(max_length=45, null=True)
     phone_number = models.CharField(max_length=45, null=True)
-    image_url    = models.URLField(max_length=2000)
+    image_url    = models.URLField(max_length=2000,null=True)
     coupon       = models.ManyToManyField('Coupon', through='UserCoupon')
     dinning      = models.ManyToManyField('products.Dinning',through='products.Review')
 

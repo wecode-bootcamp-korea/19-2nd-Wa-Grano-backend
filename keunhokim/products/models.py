@@ -1,5 +1,5 @@
 from django.db    import models
-from users.models import User
+import users.models
 
 class Category(models.Model):
     name        = models.CharField(max_length=45)

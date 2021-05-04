@@ -1,5 +1,5 @@
 from django.db import models
-from products.models import Product, Dinning, Review
+import products.models
 
 class User(models.Model):
     email        = models.EmailField(max_length=100)
@@ -16,7 +16,7 @@ class User(models.Model):
         db_table = 'users'
 
 class Coupon(models.Model):
-    product       = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True)
+    product       = models.ForeignKey('products.Product', on_delete=models.SET_NULL, null=True)
     name          = models.CharField(max_length=45)
     code          = models.CharField(max_length=45)
     discount_rate = models.DecimalField(max_digits=2, decimal_places=0)
@@ -24,8 +24,6 @@ class Coupon(models.Model):
 
     class Meta:
         db_table = 'coupons'
-
-
 
 class UserCoupon(models.Model):
     user   = models.ForeignKey('User', on_delete=models.CASCADE)

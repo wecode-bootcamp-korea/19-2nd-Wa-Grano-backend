@@ -127,45 +127,7 @@ class ProductImage(models.Model):
     class Meta:
         db_table = 'product_images'
 
-class Coupon(models.Model):
-    name          = models.CharField(max_length=45)
-    code          = models.CharField(max_length=45)
-    discount_rate = models.DecimalField(max_digits=2,decimal_places=0)
-    expire_date   = models.DateField()
-    product       = models.ForeignKey('Product',on_delete=models.SET_NULL,null=True)
 
-    class Meta:
-        db_table = 'coupons'
-
-class User(models.Model):
-    email        = models.EmailField(max_length=100)
-    password     = models.CharField(max_length=500)
-    name         = models.CharField(max_length=45)
-    last_name    = models.CharField(max_length=45, null=True)
-    first_name   = models.CharField(max_length=45, null=True)
-    phone_number = models.CharField(max_length=45, null=True)
-    image_url    = models.URLField(max_length=2000)
-    coupon       = models.ManyToManyField('Coupon', through='UserCoupon')
-    dinning      = models.ManyToManyField('Dinning',through='Review')
-
-    class Meta:
-        db_table = 'users'
-
-class Review(models.Model):
-    dinning     = models.ForeignKey('Dinning',on_delete=models.CASCADE)
-    user        = models.ForeignKey('User',on_delete=models.CASCADE)
-    comment     = models.TextField()
-    star_rating = models.SmallIntegerField(default=0)
-
-    class Meta:
-        db_table = 'reviews'
-
-class UserCoupon(models.Model):
-    user   = models.ForeignKey('User',on_delete=models.CASCADE)
-    coupon = models.ForeignKey('Coupon', on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'user_coupons'
 
 
 

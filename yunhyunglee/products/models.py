@@ -43,8 +43,8 @@ class RoomType(models.Model):
 
 class Room(models.Model):
     star_rating = models.SmallIntegerField(default=0)
-    room_type   = models.ForeignKey('RoomType',on_delete=models.SET_NULL,null=True)
-    convenience = models.ManyToManyField('Convenience',through='RoomConvenience')
+    room_type   = models.ForeignKey('RoomType', on_delete=models.SET_NULL,null=True)
+    convenience = models.ManyToManyField('Convenience', through='RoomConvenience')
 
     class Meta:
         db_table = 'rooms'
@@ -65,7 +65,7 @@ class Convenience(models.Model):
 class RoomConvenience(models.Model):
     service_type = models.ForeignKey('ServiceType', on_delete=models.CASCADE)
     convenience  = models.ForeignKey('Convenience', on_delete=models.CASCADE)
-    room         = models.ForeignKey('Room',on_delete=models.CASCADE)
+    room         = models.ForeignKey('Room', on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'room_conveniences'
@@ -84,8 +84,8 @@ class FoodType(models.Model):
 
 
 class Dinning(models.Model):
-    dinning_type = models.ForeignKey('DinningType',on_delete=models.SET_NULL, null=True)
-    food_type    = models.ForeignKey('FoodType',on_delete=models.SET_NULL, null=True)
+    dinning_type = models.ForeignKey('DinningType', on_delete=models.SET_NULL, null=True)
+    food_type    = models.ForeignKey('FoodType', on_delete=models.SET_NULL, null=True)
     description  = models.TextField()
 
     class Meta:
@@ -108,21 +108,21 @@ class Product(models.Model):
     latitude    = models.DecimalField(max_digits=20, decimal_places=17)
     longitude   = models.DecimalField(max_digits=20, decimal_places=17)
     category    = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
-    destination = models.ForeignKey('Destination',on_delete=models.SET_NULL, null=True)
+    destination = models.ForeignKey('Destination', on_delete=models.SET_NULL, null=True)
     city        = models.ForeignKey('City', on_delete=models.SET_NULL, null=True)
-    district    = models.ForeignKey('District',on_delete=models.SET_NULL, null=True)
-    price       = models.DecimalField(max_digits=18,decimal_places=2)
-    is_room     = models.BooleanField()
+    district    = models.ForeignKey('District', on_delete=models.SET_NULL, null=True)
+    price       = models.DecimalField(max_digits=18, decimal_places=2)
+    is_room     = models.BooleanField(default=False)
     room        = models.ForeignKey('Room', on_delete=models.SET_NULL, null=True)
-    is_dinning  = models.BooleanField()
-    dinning     = models.ForeignKey('Dinning',on_delete=models.SET_NULL, null=True)
+    is_dinning  = models.BooleanField(default=False)
+    dinning     = models.ForeignKey('Dinning', on_delete=models.SET_NULL, null=True)
 
     class Meta:
         db_table = 'products'
 
 class ProductImage(models.Model):
     image_url = models.URLField(max_length=2000)
-    product   = models.ForeignKey('Product',on_delete=models.SET_NULL, null=True)
+    product   = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True)
 
     class Meta:
         db_table = 'product_images'
@@ -131,29 +131,15 @@ class Coupon(models.Model):
     product       = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True)
     name          = models.CharField(max_length=45)
     code          = models.CharField(max_length=45)
-    discount_rate = models.DecimalField(max_digits=2,decimal_places=0)
+    discount_rate = models.DecimalField(max_digits=2, decimal_places=0)
     expire_date   = models.DateField()
 
     class Meta:
         db_table = 'coupons'
 
-class User(models.Model):
-    email        = models.EmailField(max_length=100)
-    password     = models.CharField(max_length=500)
-    name         = models.CharField(max_length=45)
-    last_name    = models.CharField(max_length=45, null=True)
-    first_name   = models.CharField(max_length=45, null=True)
-    phone_number = models.CharField(max_length=45, null=True)
-    image_url    = models.URLField(max_length=2000)
-    coupon       = models.ManyToManyField('Coupon', through='UserCoupon')
-    dinning      = models.ManyToManyField('Dinning',through='Review')
-
-    class Meta:
-        db_table = 'users'
-
 class Review(models.Model):
-    dinning     = models.ForeignKey('Dinning',on_delete=models.CASCADE)
-    user        = models.ForeignKey('User',on_delete=models.CASCADE)
+    dinning     = models.ForeignKey('Dinning', on_delete=models.CASCADE)
+    user        = models.ForeignKey('User', on_delete=models.CASCADE)
     comment     = models.TextField()
     star_rating = models.SmallIntegerField(default=0)
 
@@ -161,7 +147,7 @@ class Review(models.Model):
         db_table = 'reviews'
 
 class UserCoupon(models.Model):
-    user   = models.ForeignKey('User',on_delete=models.CASCADE)
+    user   = models.ForeignKey('User', on_delete=models.CASCADE)
     coupon = models.ForeignKey('Coupon', on_delete=models.CASCADE)
 
     class Meta:

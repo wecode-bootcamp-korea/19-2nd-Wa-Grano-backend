@@ -115,6 +115,7 @@ class Product(models.Model):
     room        = models.ForeignKey('Room', on_delete=models.SET_NULL, null=True)
     is_dinning  = models.BooleanField(default=False)
     dinning     = models.ForeignKey('Dinning', on_delete=models.SET_NULL, null=True)
+    is_popular  = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'products'

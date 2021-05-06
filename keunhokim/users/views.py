@@ -4,7 +4,7 @@ import jwt
 
 from django.http            import JsonResponse,HttpResponse
 from django.core.exceptions import ValidationError
-from utils                  import validate_email,validate_password
+from .utils                 import validate_email,validate_password
 
 from django.views import View
 from .models      import User,Coupon

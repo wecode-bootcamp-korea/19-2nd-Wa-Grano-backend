@@ -28,11 +28,4 @@ class SignInView(View):
             
         access_token = jwt.encode({'user_id':user.id}, SECRET_KEY, ALGORITHM)
         
-        return HttpResponse(status=200)
-
-
-        
-
-
-        
-        
+        return HttpResponse(status=200) 

@@ -92,7 +92,6 @@ class Dinning(models.Model):
 
 class DinningOption(models.Model):
     name        = models.CharField(max_length=45)
-    price       = models.DecimalField(max_digits=18, decimal_places=2)
     dinning     = models.ForeignKey('Dinning', on_delete=models.SET_NULL, null=True)
 
     class Meta:

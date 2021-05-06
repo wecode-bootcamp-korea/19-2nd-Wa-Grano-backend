@@ -2,18 +2,19 @@ from django.views import View
 from .models      import *
 from django.http  import HttpResponse,JsonResponse
 
-def category(request):
-    if request.method == "GET":
-        categories = Category.objects.all()
+class CategoryView(View):
+    def get(self, request):
 
-        data = [{
-            'name'     : category.name,
-            'image_url': category.image_url
-        } for category in Category.objects.all()]
+       categories = Category.objects.all()
 
-        return JsonResponse({'data':data},status=200)
+       data = [{
+           'name'     : category.name,
+           'image_url': category.image_url
+       } for category in categories]
 
-def destination(request,category_id):
+       return JsonResponse({'data':data},status=200)
+
+class DestinationView(View):
     if request.method == "GET":
         destinations = Category.objects.get(id=category_id).destination.all()
 

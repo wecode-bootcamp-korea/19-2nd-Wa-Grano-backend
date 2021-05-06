@@ -9,44 +9,6 @@ from django.http import JsonResponse, HttpResponse
 from my_settings  import SECRET_KEY, ALGORITHM
 from .models import User
 
-
-class SignupView(View):
-    def post(self, request):
-
-        data = json.loads(request.body)
-        MINIMUM_PASSWORD_LENGTH = 8
-
-        try :
-            email    = data.get('email',None)
-            password = data.get('password',None)
-            name     = data.get('name',None)
-
-            email_check = re.compile('^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')
-            email_check = email_check.match(email)
-
-             
-            if not email_check:
-                return JsonResponse({'message' : 'INVALID EMAIL'}, status=400)
-
-            if len(password) < MINIMUM_PASSWORD_LENGTH:
-                return JsonResponse({'MESSAGE' : 'INVALID_PASSWORD'}, status = 400)
-
-            if User.objects.filter(email = email).exists():
-                return JsonResponse({'message':'EMAIL ALREADY EXISTS'},status=400)
-            
-            hashed_password = bcrypt.hashpw(password.encode('utf-8'),bcrypt.gensalt()).decode()
-
-            User.objects.create(
-                email    = email, 
-                password = hashed_password,
-                name     = name,
-                                )
-
-            return JsonResponse({'message' : 'SUCCESS'}, status=201)
-
-        except KeyError:
-            return JsonResponse({'message': 'KEYERROR'}, status = 400)
-
 class SignInView(View):
     def post(self, request):
 
@@ -64,7 +26,7 @@ class SignInView(View):
         if not bcrypt.checkpw(password.encode('utf-8'), hashed_password):
             return JsonResponse({'message':'INVALID_USER'},status=401)
             
-        access_token =jwt.encode({'user_id':user.id}, SECRET_KEY, ALGORITHM)
+        access_token = jwt.encode({'user_id':user.id}, SECRET_KEY, ALGORITHM)
         
         return HttpResponse(status=200)
 

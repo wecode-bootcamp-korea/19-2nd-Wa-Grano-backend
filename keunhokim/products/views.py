@@ -13,5 +13,5 @@ def DestinationMain(request):
 
         return JsonResponse({'data':data},status=200)
 
-def 
+
 

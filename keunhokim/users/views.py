@@ -35,11 +35,7 @@ class UserSignUpView(View):
                 signup = User.objects.create(
                             name=name,
                             email=email,
-                            password=hashed_password,
-                            phone_number=phone_number,
-                            image_url=image_url,
-                            last_name=last_name,
-                            first_name = first_name,
+                            password=hashed_password
                             )
                 signup.coupon.add(Coupon.objects.get(id=2))
 
@@ -63,28 +59,15 @@ class UserLoginView(View):
                 return JsonResponse({'message':'CHECK_INPUTS'},status=400)
 
             if not User.objects.filter(email=email).exists():
-                return HttpResponse(status=409)
+                return HttpResponse(status=404)
 
             user = User.objects.get(email=email)
 
             if bcrypt.checkpw(password.encode('utf-8'),user.password.encode('utf-8')):
                  access_token = jwt.encode({'user':user.id}, SECRET_KEY, algorithm)
                  return JsonResponse({'access_token':access_token}, status=200)
+            else:
+                return HttpResponse(status=403)
 
        except KeyError:
             return JsonResponse({'message':'KEY_ERROR'}, status=400)
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-

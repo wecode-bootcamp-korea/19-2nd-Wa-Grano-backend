@@ -55,7 +55,7 @@ class UserLoginView(View):
                 return JsonResponse({'message':'CHECK_INPUTS'},status=400)
 
             if not User.objects.filter(email=email).exists():
-                return HttpResponse(status=404)
+                return HttpResponse(status=401)
 
             user = User.objects.get(email=email)
 

@@ -17,11 +17,7 @@ class UserSignUpView(View):
         try:
             name         = data.get('name',None)
             email        = data.get('email',None)
-            phone_number = data.get('phone_number',None)
-            image_url    = data.get('image_url', None)
             password     = data.get('password', None)
-            last_name    = data.get('last_name',None)
-            first_name   = data.get('first_name',None)
 
             if User.objects.filter(email=email).exists():
                 return HttpResponse(status=401)

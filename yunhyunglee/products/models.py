@@ -71,13 +71,13 @@ class RoomConvenience(models.Model):
         db_table = 'room_conveniences'
 
 class DinningType(models.Model):
-    name = models.CharField(max_length=45)
+    name = models.CharField(max_length=45, null=True)
 
     class Meta:
         db_table = 'dinning_types'
 
 class FoodType(models.Model):
-    name = models.CharField(max_length=45)
+    name = models.CharField(max_length=45, null=True)
 
     class Meta:
         db_table = 'food_types'

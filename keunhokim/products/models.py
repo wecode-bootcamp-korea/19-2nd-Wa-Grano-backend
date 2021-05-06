@@ -97,20 +97,6 @@ class DinningOption(models.Model):
     class Meta:
         db_table = 'dinning_options'
 
-class Activity(models.Model):
-    name = models.CharField(max_length=100)
-    price = models.DecimalField(max_digits=18, decimal_places=2)
-
-    class Meta:
-        db_table = 'activities'
-
-class ActivityImage(models.Model):
-    image_url = models.URLField(max_length=2000)
-    activity  = models.ForeignKey('Activity',on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'activity_images'
-
 class Product(models.Model):
     name        = models.CharField(max_length=45)
     rating      = models.DecimalField(max_digits=3,decimal_places=1)
@@ -120,15 +106,15 @@ class Product(models.Model):
     longitude   = models.DecimalField(max_digits=20, decimal_places=17)
     category    = models.ForeignKey('Category', on_delete=models.SET_NULL,null=True)
     destination = models.ForeignKey('Destination', on_delete=models.SET_NULL,null=True)
-    city        = models.ForeignKey('City', on_delete=models.SET_NULL, null=True)
+    city        = models.ForeignKey('City',on_delete=models.SET_NULL, null=True)
     district    = models.ForeignKey('District', on_delete=models.SET_NULL,null=True)
     price       = models.DecimalField(max_digits=18, decimal_places=2)
     is_room     = models.BooleanField(default=False)
-    room        = models.ForeignKey('Room', on_delete=models.SET_NULL,null=True)
+    room        = models.ForeignKey('Room',on_delete=models.SET_NULL,null=True)
     is_dinning  = models.BooleanField(default=False)
-    dinning     = models.ForeignKey('Dinning', on_delete=models.SET_NULL,null=True)
+    dinning     = models.ForeignKey('Dinning',on_delete=models.SET_NULL,null=True)
     is_activity = models.BooleanField(default=False)
-    activity    = models.ForeignKey('Activity',on_delete=models.SET_NULL,null=True)
+    is_popular  = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'products'

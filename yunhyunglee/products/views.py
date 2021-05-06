@@ -3,6 +3,7 @@ from django.http  import JsonResponse, HttpResponse
 
 from .models          import Category, Product
 
+
 class CategoryView(View):
     def get(self, request):
         
@@ -12,6 +13,7 @@ class CategoryView(View):
             } for category in Category.objects.all()]
 
         return JsonResponse({'data' : data}, status=200)
+
 
 class DestinationView(View):
     def get(self, request, category_id=1):

@@ -83,11 +83,9 @@ class FoodType(models.Model):
     class Meta:
         db_table = 'food_types'
 
-
 class Dinning(models.Model):
     dinning_type = models.ForeignKey('DinningType', on_delete=models.SET_NULL, null=True)
     food_type    = models.ForeignKey('FoodType', on_delete=models.SET_NULL, null=True)
-    description  = models.TextField()
 
     class Meta:
         db_table = 'dinnings'
@@ -113,9 +111,9 @@ class Product(models.Model):
     city        = models.ForeignKey('City', on_delete=models.SET_NULL, null=True)
     district    = models.ForeignKey('District', on_delete=models.SET_NULL, null=True)
     price       = models.DecimalField(max_digits=18, decimal_places=2)
-    is_room     = models.BooleanField(default=False)
+    is_room     = models.BooleanField(default=False, null=True)
     room        = models.ForeignKey('Room', on_delete=models.SET_NULL, null=True)
-    is_dinning  = models.BooleanField(default=False)
+    is_dinning  = models.BooleanField(default=False, null=True)
     dinning     = models.ForeignKey('Dinning', on_delete=models.SET_NULL, null=True)
 
     class Meta:

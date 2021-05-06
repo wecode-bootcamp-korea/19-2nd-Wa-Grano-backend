@@ -30,8 +30,9 @@ class City(models.Model):
         db_table = 'cities'
 
 class District(models.Model):
-    name = models.CharField(max_length=45)
-    city = models.ForeignKey('City', on_delete=models.SET_NULL, null=True)
+    name     = models.CharField(max_length=45)
+    city     = models.ForeignKey('City', on_delete=models.SET_NULL, null=True)
+    district = models.URLField(max_length=2000)
 
     class Meta:
         db_table = 'districts'
@@ -99,6 +100,12 @@ class DinningOption(models.Model):
     class Meta:
         db_table = 'dinning_options'
 
+class Activity(models.Model):
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_length=18, decimal_places=2)
+    description = models.TextField()
+
+
 class Product(models.Model):
     name        = models.CharField(max_length=45)
     rating      = models.DecimalField(max_digits=3,decimal_places=1)
@@ -115,7 +122,8 @@ class Product(models.Model):
     room        = models.ForeignKey('Room', on_delete=models.SET_NULL, null=True)
     is_dinning  = models.BooleanField(default=False)
     dinning     = models.ForeignKey('Dinning', on_delete=models.SET_NULL, null=True)
-    is_popular  = models.BooleanField(default=False)
+    is_activity = models.BooleanField(default=False)
+    activity    = models.ForeignKey('Activity',on_delete=models.SET_NULL,null=True)
 
     class Meta:
         db_table = 'products'

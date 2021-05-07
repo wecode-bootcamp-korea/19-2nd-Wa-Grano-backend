@@ -15,6 +15,18 @@ class CategoryView(View):
 
 class DestinationView(View):
     def get(self,request,category_id):
+        if not category_id or not Category.objects.get(id=category_id).exists():
+            return JsonResponse({'message':'BAD_REQUEST'}, status=400)
+
+        data = [{
+            'name': destination.name,
+            'image_url': destination.image_url
+        } for destination in Category.objects.get(id=category_id).destination.all()]
+
+        return JsonResponse({'data':data},status=200)
+
+class ProductView(View):
+    def get(self,request,category_id):
         destinations = Category.objects.get(id=category_id).destination.all()
 
         data = [{
@@ -24,9 +36,12 @@ class DestinationView(View):
 
         return JsonResponse({'data':data},status=200)
 
-class DinningView(View):
-    def get(self,request,is_dinning):
-        restaurants = Product.objects.filter(is_dinning=1)
+class ProductDetailView(View):
+    def get(self,request):
+        is_room     = request.GET.get('is_room', None)
+        is_dinning  = request.GET.get('is_dinning', None)
+
+        if is_dinning == 1:
 
         data = [{
             'name'          : restaurant.name,
@@ -46,8 +61,10 @@ class DinningView(View):
 
         return JsonResponse({'data':data},status=200)
 
-class RoomView(View):
+class RoomDetailView(View):
     def get(self,request):
+
+
 
 
 

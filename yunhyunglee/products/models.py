@@ -71,13 +71,13 @@ class RoomConvenience(models.Model):
         db_table = 'room_conveniences'
 
 class DinningType(models.Model):
-    name = models.CharField(max_length=45)
+    name = models.CharField(max_length=45, null=True)
 
     class Meta:
         db_table = 'dinning_types'
 
 class FoodType(models.Model):
-    name = models.CharField(max_length=45)
+    name = models.CharField(max_length=45, null=True)
 
     class Meta:
         db_table = 'food_types'
@@ -139,7 +139,7 @@ class Coupon(models.Model):
 
 class Review(models.Model):
     dinning     = models.ForeignKey('Dinning', on_delete=models.CASCADE)
-    user        = models.ForeignKey('User', on_delete=models.CASCADE)
+    user        = models.ForeignKey('users.User', on_delete=models.CASCADE)
     comment     = models.TextField()
     star_rating = models.SmallIntegerField(default=0)
 
@@ -147,7 +147,7 @@ class Review(models.Model):
         db_table = 'reviews'
 
 class UserCoupon(models.Model):
-    user   = models.ForeignKey('User', on_delete=models.CASCADE)
+    user   = models.ForeignKey('users.User', on_delete=models.CASCADE)
     coupon = models.ForeignKey('Coupon', on_delete=models.CASCADE)
 
     class Meta:

@@ -1,7 +1,13 @@
+import json
+import jwt
+import bcrypt
+
 from django.views import View
 from django.http  import JsonResponse, HttpResponse
 
-from .models          import Category, Product
+from .models      import Category, Product, UserCoupon
+from users.models import User
+from utils        import login_check
 
 
 class CategoryView(View):
@@ -41,12 +47,12 @@ class ProductView(View):
 
             for product in products:
                 product_list.append({
-                    'name'     : product.name,
-                    'rating'   : product.rating,
-                    'city'     : product.city.name,
-                    'district' : product.district.name,
-                    'price'    : product.price,
-                    'image'    : product.productimage_set.first().image_url,
+                    'name'        : product.name,
+                    'rating'      : product.rating,
+                    'city'        : product.city.name,
+                    'district'    : product.district.name,
+                    'price'       : product.price,
+                    'image'       : product.productimage_set.first().image_url,
                     'room_type'   : product.room.room_type.name,
                     'star_rating' : product.room.star_rating
                     })
@@ -56,12 +62,12 @@ class ProductView(View):
 
             for product in products:
                 product_list.append({
-                    'name'     : product.name,
-                    'rating'   : product.rating,
-                    'city'     : product.city.name,
-                    'district' : product.district.name,
-                    'price'    : product.price,
-                    'image'    : product.productimage_set.first().image_url,
+                    'name'         : product.name,
+                    'rating'       : product.rating,
+                    'city'         : product.city.name,
+                    'district'     : product.district.name,
+                    'price'        : product.price,
+                    'image'        : product.productimage_set.first().image_url,
                     'dinning_type' : product.dinning.dinning_type.name,
                     'food_type'    : product.dinning.food_type.name
                     })
@@ -116,3 +122,18 @@ class ProductDetailView(View):
                     })
 
             return JsonResponse({'data' : product_list}, status=200)
+
+@login_check
+class CouponView(View):
+    def post(self,request):
+        data = json.loads(request.body)
+
+        user   = request.user
+        coupon = data.get('coupon', None)
+        
+        UserCoupon.objects.create(
+                coupon_id = coupon.id,
+                user_id   = user.id
+                )
+
+        return HttpResponse(status=200)
